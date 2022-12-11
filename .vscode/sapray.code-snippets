@@ -1,0 +1,180 @@
+{
+  "Create React Skeleton": {
+    "prefix": [
+      "sapray con def",
+      "scd"
+    ],
+    "body": [
+      "import React from 'react';",
+      "import clsx from 'clsx';",
+      "",
+      "import { makeStyles } from '@material-ui/core/styles';",
+      "",
+      "const useStyles = makeStyles((theme) => ({",
+      "}));",
+      "",
+      "export default function ${1:FunctionName}(props) {",
+      "\tconst classes = useStyles();",
+      "\t",
+      "\treturn (",
+      "\t<>",
+      "\t\t${0:JSX Code}",
+      "\t</>",
+      "\t)",
+      "}"
+    ],
+    "description": "Insert React default skeleton"
+  },
+
+  "Create React Skeleton With PropTypes": {
+    "prefix": [
+      "sapray con proptype",
+      "scp"
+    ],
+    "body": [
+      "import React from 'react';",
+      "import PropTypes from 'prop-types';",
+      "import clsx from 'clsx';",
+      "",
+      "import { makeStyles } from '@material-ui/core/styles';",
+      "",
+      "const useStyles = makeStyles((theme) => ({",
+      "}));",
+      "",
+      "export default function ${1:FunctionName}(props) {",
+      "\tconst classes = useStyles();",
+      "\tconst {",
+      "\t\tmessage,",
+      "\t} = props;",
+      "\t",
+      "\treturn (",
+      "\t<>",
+      "\t\t${0:JSX Code}{ message }",
+      "\t</>",
+      "\t)",
+      "}",
+      "",
+      "${1:FunctionName}.propTypes = {",
+      "\tmessage: PropTypes.string,",
+      "}",
+      "",
+      "${1:FunctionName}.defaultProps = {",
+      "\tmessage: 'Hello World!!!',",
+      "}",
+    ],
+    "description": "Insert React default skeleton"
+  },
+
+  "Create React Skeleton With PropTypes New": {
+    "prefix": [
+      "sapray con proptype new",
+      "scpn"
+    ],
+    "body": [
+      "import React from 'react';",
+      "import PropTypes from 'prop-types';",
+      "",
+      "export default function ${1:FunctionName}(props) {",
+      "\tconst {",
+      "\t\tmessage,",
+      "\t} = props;",
+      "\t",
+      "\treturn (",
+      "\t<>",
+      "\t\t${0:JSX Code}{ message }",
+      "\t</>",
+      "\t)",
+      "}",
+      "",
+      "${1:FunctionName}.propTypes = {",
+      "\tmessage: PropTypes.string,",
+      "}",
+      "",
+      "${1:FunctionName}.defaultProps = {",
+      "\tmessage: 'Hello World!!!',",
+      "}",
+    ],
+    "description": "Insert React default skeleton new"
+  },
+
+  "Create Styled Component": {
+    "prefix": [
+      "sapray con sty com",
+      "scsc"
+    ],
+    "body": [
+      "import { styled } from '@material-ui/core';",
+      "",
+      "export const ${1:FunctionName} = styled('div')({",
+      "\t${0:JSS Code}",
+      "})",
+      "",
+      "export default ${1:FunctionName};"
+    ],
+    "description": "Insert Styled Component"
+  },
+
+  "Create Styled Component with Mui Theme Parameter": {
+    "prefix": [
+      "sapray con sty com wmtp",
+      "scscwt"
+    ],
+    "body": [
+      "import { styled } from '@material-ui/core';",
+      "",
+      "export const ${1:FunctionName} = styled('span')(({ theme }) => ({",
+      "\t${0:JSS Code}",
+      "}))",
+      "",
+      "export default ${1:FunctionName};"
+    ],
+    "description": "Insert Styled Component with Mui Theme Parameter"
+  },
+
+  "Create Component with Style": {
+    "prefix": [
+      "sapray con com wstyle",
+      "sccws"
+    ],
+    "body": [
+      "import { withStyles } from '@material-ui/core';",
+      "",
+      "export const ${1:FunctionName} = withStyles({",
+      "\t${2:someprops}: {",
+      "\t\t${0:margin: '1px 0px',}",
+      "\t}",
+      "})('div')",
+      "",
+      "export default ${1:FunctionName};"
+    ],
+    "description": "Insert Component with Style"
+  },
+
+  "Create React useState": {
+    "prefix": [
+      "sapray con react state",
+      "scrs",
+      "sauseState"
+    ],
+    "body": [
+      "const [${1:StateName}, ${2:SetStateFuncName}] = React.useState(${3:'Default State'});",
+    ],
+    "description": "Insert React useState()"
+  },
+  "Create React useEffect": {
+    "prefix": [
+      "sapray con react effect",
+      "scrf",
+      "sauseEffect"
+    ],
+    "body": [
+      "React.useEffect(() => {",
+      "\t",
+      "\treturn () => {",
+      "\t\t",
+      "\t}",
+      "}, [])",
+    ],
+    "description": "Insert React useState()"
+  },
+}
