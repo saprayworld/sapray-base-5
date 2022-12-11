@@ -3,8 +3,9 @@ import { Link as RouterLink } from 'react-router-dom';
 
 /**
  * CustomLink
- * @param {Object} param0 wdawdaw
- * @param {('default' | 'inherit' | 'primary' | 'secondary' | 'error' | 'warning' | 'info' | 'success')} param0.color สี
+ * @param {Object} param0 param0
+ * @param {('default' | 'inherit' | 'primary' | 
+ * 'secondary' | 'error' | 'warning' | 'info' | 'success')} param0.color สี
  * @returns 
  */
  function CustomLink({
