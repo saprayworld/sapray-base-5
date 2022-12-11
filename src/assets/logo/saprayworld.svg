@@ -1,0 +1,11 @@
+<svg enableBackground="new 0 0 612 612" viewBox="0 0 612 612" height="612" width="612" xmlns="http://www.w3.org/2000/svg">
+  <g id="Layer_1">
+    <polygon points="306,452 53.1,306 306,160 	" fill="#0E76BC" />
+    <polygon points="298,306 171.55,233 298,160 " fill="#00AEEF" />
+    <polygon points="298,452 171.55,379 298,306 " fill="#283891" />
+    <polygon points="302,445 61.5,306 302,167 	" fill="#0000" stroke="#FFF" strokeWidth="9" strokeMiterlimit="0" />
+    <polygon points="306,160 558.9,306 306,452 	" fill="#33A851" stroke="#FFFFFF" strokeWidth="9" strokeMiterlimit="10" />
+    <polygon points="53.1,14 306,160 53.1,306 	" fill="#EA4335" stroke="#FFFFFF" strokeWidth="9" strokeMiterlimit="10" />
+    <polygon points="53.1,306 306,452 53.1,598 	" fill="#F9BC15" stroke="#FFFFFF" strokeWidth="9" strokeMiterlimit="10" />
+  </g>
+</svg>
