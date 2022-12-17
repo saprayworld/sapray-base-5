@@ -59,11 +59,79 @@
     หากขึ้นแบบด้านล่าง ให้ดำเนินการต่อที่ข้อต่อไป
     ```
     /path/to/project> git fetch && git status
+    remote: Enumerating objects: 5, done.
+    remote: Counting objects: 100% (5/5), done.
+    remote: Compressing objects: 100% (1/1), done.
+    remote: Total 3 (delta 2), reused 3 (delta 2), pack-reused 0
+    Unpacking objects: 100% (3/3), 1011 bytes | 77.00 KiB/s, done.
+    From https://github.com/saprayworld/sapray-base-5
+      b74ffeb..a69aa91  dev-sapray -> origin/dev-sapray
+    On branch dev-sapray
+    Your branch is behind 'origin/dev-sapray' by 1 commit, and can be fast-forwarded.
+      (use "git pull" to update your local branch)
+
+    nothing to commit, working tree clean
+    ```
+    ตามข้างต้นหมายความว่า ตอนนี้มีการอัพเดทข้อมูลบน server repo ไปก่อนแล้ว เราจะต้องทำการอัพเดทข้อมูลของเราให้ตรงกับข้อมูลบน repo ก่อน แล้วค่อยทำงานของเราต่อ
+
+    โดยตัวอย่างข้างต้นบอกว่า ตอนนี้เราอยู่ที่ branch ที่ชื่อ origin/dev-sapray มีการอัพเดทไปแล้ว 1 commit ส่วนคำว่า `nothing to commit, working tree clean` หมายความว่า เรายังไม่ได้ยุ่งกับโค้ดในเครื่องของเรา จึงไม่ต้องทำการอัพเดทไปยัง repo ในกรณีที่เราทำงานเสร็จและเราไม่ลืมที่จะโยนงาน (commit) ขึ้นไปบน repo ก่อนจะเลิกงาน
+    
+    > แนะนำว่าทุกครั้งที่เราจะหยุดทำงาน ให้เราทำการ save งานของเราก่อนทุกครั้ง โดยการ commit หรือโยนงานเราขึ้นไปยัง repo เพื่อในอนาคตเราจะได้ไม่ต้องยุ่งวุ่นวายมากเมื่อโค้ดนั้นมีการอัพเดทก่อนเรา
+2. การอัพเดทไฟล์โปรเจคของเราให้ตรงกับข้อมูลของ server repo  
+    เราจะใช้คำสั่ง `git pull` เพื่ออัพเดทข้อมูลของเราจาก server repo
+    ```
+    /path/to/project> git pull
+    Updating b74ffeb..a69aa91
+    Fast-forward
+     GitCmd.md | 70 ++++++++++++++++++++++++++++++++++++++++++++-------------------
+     1 file changed, 49 insertions(+), 21 deletions(-)
+    ```
+    ทีนี้ ให้เราลองรัน `git fetch && git status` อีกครั้ง หรือ `git status` ก็ได้
+    ```
+    /path/to/project> git fetch && git status
     On branch dev-sapray
     Your branch is up to date with 'origin/dev-sapray'.
 
     nothing to commit, working tree clean
     ```
+    ก็จะพบว่า ข้อมูลของเราถูกอัพเดทเรียบร้อยแล้ว เราก็เริ่มทำงานของเราต่อได้เลย
+
+### เมื่อหยุดทำงาน หรือเลิกงานแล้วได้เวลากลับบ้านนนนน
+แน่นอนแหละ ว่าเราก็ต้องบันทึกสิ่งที่เราทำทั้งหมดเนี้ยขึ้น repo ไปซะ เดะพรุ่งนี้มาทำต่อละงานชั้นหายหมดละงามไส้เลยนะนั้น เห้ยละมันทำยังไงล่ะ
+
+สิ่งที่เราต้องทำคือ เมื่อเราทำงานเสร็จแล้วในแต่ละครั้ง หรือแต่ละวันนั้นให้เราโยนงานของเราขึ้นไปบน server repo โดยตามขั้นตอนนี้
+1. ให้ใช้คำสั่ง `git status` เพื่อตรวจสอบดูก่อนว่าเราแกไฟล์ไหนอะไรยังไงไปบ้าง
+    ```
+    /path/to/project> git status
+    On branch dev-sapray
+    Changes not staged for commit:
+      (use "git add <file>..." to update what will be committed)
+      (use "git restore <file>..." to discard changes in working directory)
+            modified:   GitCmd.md
+
+    no changes added to commit (use "git add" and/or "git commit -a")
+    ```
+    ตามข้างต้นนี้จะบอกเราว่า ตอนนี้ข้อมูลของเรามีการแก้ไขไปแล้ว แต่ว่ายังไม่ได้ทำการ commit นะ
+
+    ทีนี้ เราจะมีสองทางที่เราทำได้ละ คือ เราจะบันทึกข้อมูลนี้ หรือเราจะทิ้งมันไปซะ  
+    - ถ้าเราจะบันทึกให้ใช้คำสั่ง `git add .` เพื่อบอกว่าไฟล์ทั้งหมดที่เราแก้ไขไปเนี่ย เราจะทำ commit นะ
+    - ถ้าเราจะยกเลิกการแก้ไขทั้งหมด ให้เราใช้คำสั่ง `git restore .` ไฟล์ทั้งหมดที่เราแก้ไขไปก็จะกลับไปยัง save ล่าสุดที่เราได้อัพเดทไปนั้นเอง  
+
+      > เราสามารถกระทำเฉพาะบางไฟล์ที่เราต้องการได้ด้วยการแทน . เป็นชื่อไฟล์ที่เราต้องการ เช่น  
+      `git add ./update/sapray.txt`  
+      `git add sapraynote.txt`  
+      หรือ  
+      `git restore ./update/sapray.txt`  
+      `git restore sapraynote.txt`  
+
+    ในกรณีนี้เราจะทำการบันทึกงานที่เราได้ทำมาให้เราใช้คำสั่ง `git add .` เพื่อเพิ่มไฟล์ทั้งหมดของเรา ไปทำการ commit
+    
+
+1. ให้ใช้คำสั่ง `git push origin <you-branch-name>` เพื่อทำการอัพเดทไฟล์ของเราไปยัง repo
+    ```
+
+    ```
+
 ---
 ## ชุดคำสั่งทั่วไป
 ### การสร้าง branch ใหม่
