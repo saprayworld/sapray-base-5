@@ -8,31 +8,49 @@ import {
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import CssBaseline from '@mui/material/CssBaseline';
 
-import { switchTheme, ColorModeContext } from './Themes';
+import { switchTheme } from './Themes';
 
 import routes from './routes';
 import Loading from './Components/Loading';
 
+import {
+  BaseSettingProvider,
+  defaultBaseSetting,
+  getColorModeByType,
+  localSetting,
+  useColorModeInit,
+} from 'System/BaseSetting';
+
 const LayoutSwitch = React.lazy(() => import('./Layouts/LayoutSwitch'));
 
 export default function App() {
-
+  console.log(useColorModeInit);
   const [ready, setReady] = React.useState(false);
-  // const colorMode = React.useContext(ColorModeContext);
 
-  const [mode, setMode] = React.useState('dark');
-  const colorMode = React.useMemo(
+  const [mode, setMode] = React.useState(useColorModeInit);
+
+  const baseSettingData = React.useMemo(
     () => ({
-      toggleColorMode: () => {
-        setMode((prevMode) => (prevMode === 'light' ? 'dark' : 'light'));
-      },
+      ...defaultBaseSetting,
+      currentColorMode: mode,
+      setColorMode: (_mode) => {
+        localSetting.set({ themeType: _mode })
+        setMode(getColorModeByType(_mode))
+      }
     }),
-    [],
+    [mode],
   );
+  
+  window.onstorage = (data) => {
+    if (data.key === 'saprayworld_manager') {
+      const newSetting = JSON.parse(data.newValue)
+      setMode(getColorModeByType(newSetting.themeType))
+    }
+  };
 
   const theme = React.useMemo(
     () =>
-    createTheme(switchTheme(mode)),
+      createTheme(switchTheme(mode)),
     [mode],
   );
 
@@ -43,7 +61,7 @@ export default function App() {
     }
   }, [])
 
-  return <ColorModeContext.Provider value={colorMode}>
+  return <BaseSettingProvider value={baseSettingData}>
     <ThemeProvider theme={theme}>
       <CssBaseline />
       {
@@ -63,5 +81,5 @@ export default function App() {
           </BrowserRouter>
       }
     </ThemeProvider>
-  </ColorModeContext.Provider>
+  </BaseSettingProvider>
 }

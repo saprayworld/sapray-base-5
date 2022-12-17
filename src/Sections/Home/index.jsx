@@ -1,11 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Container, IconButton, useScrollTrigger, useTheme } from '@mui/material';
+import { Button, Container, IconButton, useScrollTrigger, useTheme } from '@mui/material';
 import ElevateAppBar from './Components/Appbar/ElevateAppBar';
 
 import Brightness4Icon from '@mui/icons-material/Brightness4';
 import Brightness7Icon from '@mui/icons-material/Brightness7';
-import { ColorModeContext } from 'Themes';
+import { useBaseSetting } from 'System/BaseSetting';
+
 
 export default function Home(props) {
   const {
@@ -13,7 +14,7 @@ export default function Home(props) {
   } = props;
 
   const theme = useTheme();
-  const colorMode = React.useContext(ColorModeContext);
+  const baseSetting = useBaseSetting()
 
   const trigger = useScrollTrigger({
     disableHysteresis: true,
@@ -21,11 +22,29 @@ export default function Home(props) {
     target: undefined,
   });
 
+  // console.log(baseSetting);
+
   return (
     <>
       <ElevateAppBar
         menu={<>
-          <IconButton sx={{ ml: 1 }} onClick={colorMode.toggleColorMode} color="inherit">
+          <div>{baseSetting.currentColorMode}</div>
+          <Button sx={{ ml: 1 }} onClick={() => console.log(baseSetting.getBaseSetting)} color="inherit">
+            ข้อมูลตั้งค่าโหมดสี
+          </Button>
+          <Button sx={{ ml: 1 }} onClick={() => baseSetting.setColorMode("onDevice")} color="inherit">
+            อุปกรณ์
+          </Button>
+          <Button sx={{ ml: 1 }} onClick={() => baseSetting.setColorMode("dark")} color="inherit">
+            มืด
+          </Button>
+          <Button sx={{ ml: 1 }} onClick={() => baseSetting.setColorMode("light")} color="inherit">
+            สว่าง
+          </Button>
+          <IconButton sx={{ ml: 1 }} onClick={() => baseSetting.setColorMode("light")} color="inherit">
+            {theme.palette.mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
+          </IconButton>
+          <IconButton sx={{ ml: 1 }} onClick={() => baseSetting.setColorMode("dark")} color="inherit">
             {theme.palette.mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
           </IconButton>
         </>

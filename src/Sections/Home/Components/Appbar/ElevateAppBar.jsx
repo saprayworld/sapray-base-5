@@ -52,7 +52,7 @@ export default function ElevateAppBar(props) {
                 </Typography>
             }
             <div style={{ flexGrow: 1 }}></div>
-            <div>{menu}</div>
+            {menu}
           </ToolbarNoPadding>
         </Container>
       </AppBar>

@@ -30,7 +30,7 @@ export const saprayThemeLight = {
       styleOverrides: {
         body: {
           ...darkScrollbar(),
-          transition: ".3s ease",
+          // transition: ".3s ease",
           // color: "#FFF",
           // backgroundColor: "#171941",
           // fontFamily: '"Poppins", sans-serif',

@@ -31,8 +31,8 @@ export const japaneseThemeLight = {
       styleOverrides: {
         body: {
           ...darkScrollbar(),
-          // color: "#FFF",
-          // backgroundColor: "#171941",
+          color: "#FFF",
+          backgroundColor: "#171941",
           // fontFamily: '"Poppins", sans-serif',
         },
       }

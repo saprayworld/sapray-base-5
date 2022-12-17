@@ -1,2 +1,12 @@
 import React from 'react';
-export const ColorModeContext = React.createContext({ toggleColorMode: () => { } });
+import { BaseSetting } from './BaseSetting';
+
+export const defaultBaseSetting = {
+  currentMode: null,
+  currentBaseSetting: BaseSetting.get(),
+  getBaseSetting: BaseSetting.get(),
+  setBaseSetting: () => { },
+  toggleColorMode: () => { },
+}
+
+export const ColorModeContext = React.createContext(defaultBaseSetting);
