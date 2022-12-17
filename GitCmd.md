@@ -125,12 +125,66 @@
       `git restore sapraynote.txt`  
 
     ในกรณีนี้เราจะทำการบันทึกงานที่เราได้ทำมาให้เราใช้คำสั่ง `git add .` เพื่อเพิ่มไฟล์ทั้งหมดของเรา ไปทำการ commit
-    
-
-1. ให้ใช้คำสั่ง `git push origin <you-branch-name>` เพื่อทำการอัพเดทไฟล์ของเราไปยัง repo
+    ```
+    /path/to/project> git add .
     ```
 
+    ทำการตรวจสอบสถานะอีกครั้งโดยใช้ `git status`
     ```
+    /path/to/project> git status
+    On branch dev-sapray
+    Changes to be committed:
+      (use "git restore --staged <file>..." to unstage)
+            modified:   GitCmd.md
+    ```
+    ตามตัวอย่าง จะพบว่า มีไฟล์ GitCmd.md ถูกแก้ไขไปแล้ว และได้ทำการเพิ่มไปยังรายการ (staged) ที่จะทำการ commit
+    > หากว่าเราเปลี่ยนใจที่จะไป commit ให้เราใช้คำสั่ง  
+    สำหรับไฟล์ทั้งหมด  
+    `git restore --staged .`  
+    สำหรับบางไฟล์  
+    `git restore --staged sapraynote.txt`  
+    ก็จะทำการยกเลิกการ staged ของไฟล์นั้นๆ หรือทั้งหมด และถ้าหลังจากนี้เราอยากยกเลิกการแก้ไขด้วย ก็สามารถใช้คำสั่ง  
+    สำหรับไฟล์ทั้งหมด  
+    `git restore .`  
+    หรือสำหรับบางไฟล์  
+    `git restore sapraynote.txt`  
+    ตามคำสั่งชุดแรกได้ด้วยเช่นกัน  
+
+
+2. ให้ใช้คำสั่ง `git commit -m "<Message to update>"` เพื่อทำการอัพเดทไฟล์ของเรา
+    ```
+    /path/to/project> git commit -m "Update into gitcmd help file"
+    [dev-sapray bda2ca5] Update into gitcmd help file
+     1 file changed, 68 insertions(+)
+    ```
+    ตอนนี้ ไฟล์ของเราได้ถูกบันทึกแล้ว แต่!!!!!
+    มันยังไม่ถูกอัพเดทไปยัง server repo ของเรานะ ตอนนี้มันแค่ยังอยู่ในเครื่องของเราเท่านั้น
+    > ในขั้นตอนนี้ หากเราอยากแก้ไขข้อความกำกับตอนเราอัพเดทโค้ด เราสามารถทำได้โดยใช้คำสั่ง  
+    `git commit --amend -m "New commit message."`  
+    หรือเราอยากแก้ไขไฟล์หรือเพิ่มไฟล์ที่แก้ไข ก็สามารถทำได้โดยใช้คำสั่ง  
+    `git add .`  
+    `git commit --amend -m "New commit message."`
+
+    ทีนี้เราจะต้องทำการโยนไฟล์อัพเดทเราขึ้นไปบน server repo ด้วย
+
+3. ทำการอัพเดทไฟล์ของเราไปยัง server repo โดยใช้คำสั่ง `git push origin <branchName>`
+    ```
+    /path/to/project> git push origin dev-sapray
+    Enumerating objects: 5, done.
+    Counting objects: 100% (5/5), done.
+    Delta compression using up to 4 threads
+    Compressing objects: 100% (3/3), done.
+    Writing objects: 100% (3/3), 3.23 KiB | 3.23 MiB/s, done.
+    Total 3 (delta 1), reused 0 (delta 0), pack-reused 0
+    remote: Resolving deltas: 100% (1/1), completed with 1 local object.
+    To https://github.com/saprayworld/sapray-base-5.git
+      a69aa91..79b5168  dev-sapray -> dev-sapray
+    ```
+    ตอนนี้ ไฟล์ของเราถูกอัพเดทไปยัง server repo เรียบร้อยแล้ว เย่~~~~~~  
+    เสร็จงานแล้ว เลิกงานแล้ว กลับบ้านได้ ไปปปป
+    > ในขั้นตอนนี้ หากเราอยากแก้ไขข้อความกำกับตอนเราอัพเดทโค้ด เราสามารถทำได้โดยใช้คำสั่ง  
+    `git commit --amend -m "New commit message."`  
+    `git push --force <remoteName> <branchName>`
 
 ---
 ## ชุดคำสั่งทั่วไป
