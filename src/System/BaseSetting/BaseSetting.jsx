@@ -1,4 +1,6 @@
-const keyLocalStorage = "saprayworld_manager";
+import { SYS_SETTING_NAME } from "./config";
+
+const keyLocalStorage = SYS_SETTING_NAME;
 const defaultSetting = {
   version: 1,
   themeType: "onDevice", // [ onDevice, dark, light ]

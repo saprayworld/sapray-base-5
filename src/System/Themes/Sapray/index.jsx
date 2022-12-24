@@ -1,13 +1,14 @@
 import darkScrollbar from "@mui/material/darkScrollbar";
+import { createTheme } from '@mui/material/styles';
 
 import { paletteLight } from './paletteLight';
 import { paletteDark } from './paletteDark';
 import { Appbar } from "./Appbar";
 import { Toolbar } from "./Toolbar";
-import { Card } from "./Card";
-import { Button } from "./Button";
 
-export const japaneseThemeLight = {
+export const defaultTheme = createTheme({});
+
+export const saprayThemeLight = {
   palette: {
     // mode: 'light',
     ...paletteLight,
@@ -16,7 +17,7 @@ export const japaneseThemeLight = {
     fontFamily: [
       '"Roboto"',
       // '"Noto Sans Thai"',
-      '"Noto Sans JP"',
+      // '"Noto Sans JP"',
       '"Helvetica"',
       '"Arial"',
       'sans-serif',
@@ -25,14 +26,13 @@ export const japaneseThemeLight = {
   components: {
     ...Appbar(paletteLight),
     ...Toolbar,
-    ...Card,
-    ...Button,
     MuiCssBaseline: {
       styleOverrides: {
         body: {
           ...darkScrollbar(),
+          // transition: ".3s ease",
           // color: "#FFF",
-          backgroundColor: "#171941",
+          // backgroundColor: "#171941",
           // fontFamily: '"Poppins", sans-serif',
         },
       }
@@ -40,14 +40,22 @@ export const japaneseThemeLight = {
   }
 };
 
-export const japaneseThemeDark = {
-  ...japaneseThemeLight,
+export const saprayThemeDark = {
+  ...saprayThemeLight,
   palette: {
     // mode: 'dark',
     ...paletteDark,
   },
   components: {
-    ...japaneseThemeLight.components,
+    ...saprayThemeLight.components,
     ...Appbar(paletteDark),
+    MuiCssBaseline: {
+      styleOverrides: {
+        body: {
+          ...darkScrollbar(),
+          color: "#b3b3b3",
+        }
+      }
+    }
   }
 };

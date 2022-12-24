@@ -1,7 +1,12 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { localSettingData } from './BaseSetting';
+import { switchTheme } from '../Themes';
+import { ThemeProvider, createTheme } from "@mui/material/styles";
+import { CssBaseline } from '@mui/material';
+import { SYS_SETTING_NAME } from './config';
 
-export const localSetting = {
+const localSetting = {
   set: localSettingData.set,
 };
 
@@ -9,21 +14,26 @@ const systemTheme = window.matchMedia && window.matchMedia('(prefers-color-schem
 const systemColorMode = getColorMode(systemTheme);
 const settingData = localSettingData.get();
 const settingColorMode = getColorMode(settingData.themeType === "dark");
-export const useColorModeInit = settingData.themeType === 'onDevice' ? systemColorMode : settingColorMode;
+const useColorModeInit = settingData.themeType === 'onDevice' ? systemColorMode : settingColorMode;
 
-export function getColorModeByType(type) {
+function getColorModeByType(type) {
   return type === "onDevice" ? systemColorMode : type
 }
 
-export function getColorMode(type) {
+function getColorMode(type) {
   return type ? "dark" : "light"
 }
 
-export const defaultBaseSetting = {
+const defaultBaseSetting = {
   /**
    * ข้อมูลโหมดของทีที่แสดงในปัจจุบัน
    */
   currentColorMode: useColorModeInit,
+
+  /**
+   * ข้อมูลที่แสดงว่ามีการอัพเดทการตั้งค่าไปกี่ครั้งแล้ว
+   */
+  currentStackUpdate: 0,
 
   /**
    * ข้อมูลการตั้งค่าปัจจุบัน
@@ -55,15 +65,81 @@ export const defaultBaseSetting = {
   toggleColorMode: () => { },
 }
 
-export const BaseSetting = React.createContext({
+const BaseSetting = React.createContext({
   ...defaultBaseSetting
 });
-export const BaseSettingProvider = BaseSetting.Provider;
 
 export function useBaseSetting() {
   return React.useContext(BaseSetting);
 }
 
+// const defaultConfig = {
 
+// }
 
-// export const useBaseSetting = React.useContext(BaseSetting);
+export function BaseSettingProvider(props) {
+  const {
+    children,
+    // config,
+  } = props;
+
+  // const useConfig = {
+  //   ...defaultConfig,
+  //   ...config,
+  // }
+
+  const [mode, setMode] = React.useState(useColorModeInit);
+  const [stackUpdate, setStackUpdate] = React.useState(0);
+
+  const baseSettingData = React.useMemo(
+    () => {
+      return {
+        ...defaultBaseSetting,
+        currentColorMode: mode,
+        currentStackUpdate: stackUpdate,
+        setColorMode: (_mode) => {
+          localSetting.set({ themeType: _mode })
+          setMode(getColorModeByType(_mode))
+          setStackUpdate((prevMode) => prevMode + 1)
+        },
+        getBaseSetting: localSettingData.get(),
+        currentBaseSetting: localSettingData.get(),
+        setBaseSetting: (settingData) => {
+          localSettingData.set(settingData)
+          setStackUpdate((prevMode) => prevMode + 1)
+        },
+      }
+    },
+    [mode, stackUpdate],
+  );
+
+  window.onstorage = (data) => {
+    if (data.key === SYS_SETTING_NAME) {
+      const newSetting = JSON.parse(data.newValue)
+      setMode(getColorModeByType(newSetting.themeType))
+    }
+  };
+
+  const theme = React.useMemo(
+    () =>
+      createTheme(switchTheme(mode)),
+    [mode],
+  );
+
+  return (
+    <BaseSetting.Provider value={baseSettingData}>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        {children}
+      </ThemeProvider>
+    </BaseSetting.Provider>
+  )
+}
+
+BaseSettingProvider.propTypes = {
+  config: PropTypes.object,
+}
+
+BaseSettingProvider.defaultProps = {
+  config: null,
+}

@@ -11,7 +11,7 @@ import { ThemeProvider, createTheme } from "@mui/material/styles";
 import PageBackground from '../../Components/PageBackground';
 import ElevateAppBar from '../../Components/AppBar';
 import Loading from '../../Components/Loading';
-import { switchTheme } from 'Themes';
+import { switchTheme } from 'System/Themes';
 import { CssBaseline } from '@mui/material';
 
 export default function SaprayJapanese(props) {
