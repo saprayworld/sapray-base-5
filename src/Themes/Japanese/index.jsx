@@ -9,7 +9,7 @@ import { Button } from "./Button";
 
 export const japaneseThemeLight = {
   palette: {
-    mode: 'light',
+    // mode: 'light',
     ...paletteLight,
   },
   typography: {
@@ -31,7 +31,7 @@ export const japaneseThemeLight = {
       styleOverrides: {
         body: {
           ...darkScrollbar(),
-          color: "#FFF",
+          // color: "#FFF",
           backgroundColor: "#171941",
           // fontFamily: '"Poppins", sans-serif',
         },
@@ -43,7 +43,7 @@ export const japaneseThemeLight = {
 export const japaneseThemeDark = {
   ...japaneseThemeLight,
   palette: {
-    mode: 'dark',
+    // mode: 'dark',
     ...paletteDark,
   },
   components: {

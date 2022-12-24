@@ -26,7 +26,7 @@ const Title = styled('h4')(() => ({
   margin: "auto",
   width: "60%",
   textAlign: "center",
-  color: "#FFF"
+  // color: "#FFF"
 }));
 
 export default function TitleNavBar(props) {

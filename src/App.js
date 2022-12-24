@@ -24,7 +24,7 @@ import {
 const LayoutSwitch = React.lazy(() => import('./Layouts/LayoutSwitch'));
 
 export default function App() {
-  console.log(useColorModeInit);
+  // console.log(useColorModeInit);
   const [ready, setReady] = React.useState(false);
 
   const [mode, setMode] = React.useState(useColorModeInit);

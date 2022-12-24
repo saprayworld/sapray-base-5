@@ -2,7 +2,7 @@ import { japaneseThemeDark } from "./Japanese";
 import { saprayThemeDark, saprayThemeLight } from "./Sapray"
 
 export const switchTheme = (mode, name = "sapray") => {
-
+  // console.log("สลับธีม:", name, mode);
   switch (name) {
     case "sapray":
       return mode === "light" ? saprayThemeLight : saprayThemeDark
@@ -11,6 +11,6 @@ export const switchTheme = (mode, name = "sapray") => {
       return japaneseThemeDark
   
     default:
-      return {}
+      return mode === "light" ? saprayThemeLight : saprayThemeDark
   }
 }

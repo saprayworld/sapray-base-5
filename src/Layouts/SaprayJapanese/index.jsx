@@ -12,6 +12,7 @@ import PageBackground from '../../Components/PageBackground';
 import ElevateAppBar from '../../Components/AppBar';
 import Loading from '../../Components/Loading';
 import { switchTheme } from 'Themes';
+import { CssBaseline } from '@mui/material';
 
 export default function SaprayJapanese(props) {
   const location = useLocation();
@@ -49,6 +50,7 @@ export default function SaprayJapanese(props) {
 
   return (
     <ThemeProvider theme={theme}>
+      <CssBaseline />
       <PageBackground />
       <ElevateAppBar title="Sapray Japanese" />
       <Suspense fallback={<Loading message="กำลังโหลดหน้า..." />}>
