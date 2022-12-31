@@ -1,17 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Button, Container, IconButton, useScrollTrigger, useTheme } from '@mui/material';
+import { Autocomplete, Button, Container, IconButton, TextField, Typography, useScrollTrigger, useTheme } from '@mui/material';
 import ElevateAppBar from './Components/Appbar/ElevateAppBar';
 
 import Brightness4Icon from '@mui/icons-material/Brightness4';
 import Brightness7Icon from '@mui/icons-material/Brightness7';
 import { useBaseSetting } from 'System/BaseSetting';
+import DemoPage from './Components/DemoPage';
 
 
 export default function Home(props) {
-  const {
-    message,
-  } = props;
+  // const {
+  //   // message,
+  // } = props;
 
   const theme = useTheme();
   const baseSetting = useBaseSetting()
@@ -21,6 +22,16 @@ export default function Home(props) {
     threshold: 0,
     target: undefined,
   });
+
+  const themeList = [
+    { labal: 'Sapray', value: "sapray" },
+    { labal: 'Japanese', value: "japanese" },
+  ]
+  const colorModeList = [
+    { labal: 'ตามอุปกรณ์', value: "onDevice" },
+    { labal: 'มืด', value: "dark" },
+    { labal: 'สว่าง', value: "light" },
+  ]
 
   // console.log(baseSetting);
 
@@ -41,6 +52,13 @@ export default function Home(props) {
           <Button sx={{ ml: 1 }} onClick={() => baseSetting.setColorMode("light")} color="inherit">
             สว่าง
           </Button>
+          <Button sx={{ ml: 1 }} onClick={() => baseSetting.setTheme({ themeName: "japanese" })} color="inherit">
+            japanese
+          </Button>
+          <Button sx={{ ml: 1 }} onClick={() => baseSetting.setTheme({ themeName: "sapray" })} color="inherit">
+            sapray
+          </Button>
+
           <IconButton sx={{ ml: 1 }} onClick={() => baseSetting.setColorMode("light")} color="inherit">
             {theme.palette.mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
           </IconButton>
@@ -52,7 +70,38 @@ export default function Home(props) {
       />
       <Container>
         <p>EventTriggerScroll By Function: {trigger ? "True" : "False"}</p>
-        {message}
+        {/* <Typography>เลือกธีม</Typography> */}
+        <Autocomplete
+          disablePortal
+          value={themeList.find((item) => baseSetting.currentThemeName === item.value)}
+          options={themeList}
+          getOptionLabel={(item) => `${item.labal}`}
+          onChange={(e, item) => baseSetting.setTheme({ themeName: item.value })}
+          isOptionEqualToValue={(list, currentValue) => list.value === currentValue.value}
+          sx={{ width: 300 }}
+          renderInput={(params) => <TextField {...params} label="เลือกธีม" />}
+        />
+        <br />
+        <Autocomplete
+          disablePortal
+          value={colorModeList.find((item) => baseSetting.getBaseSetting.themeType === item.value)}
+          options={colorModeList}
+          getOptionLabel={(item) => `${item.labal}`}
+          onChange={(e, item) => baseSetting.setColorMode(item.value)}
+          isOptionEqualToValue={(list, currentValue) => list.value === currentValue.value}
+          sx={{ width: 300 }}
+          renderInput={(params) => <TextField {...params} label="เลือกโหมดสี" />}
+        />
+        <br />
+        <Typography>รูปแบบธีมที่กำลังใช้</Typography>
+        <Typography>ชื่อธีม: {baseSetting.currentThemeName}</Typography>
+        <Typography>โหมดสี: {baseSetting.currentColorMode}</Typography>
+        <hr />
+        <DemoPage />
+        <br />
+        <br />
+        <br />
+        <br />
         {[...new Array(30)]
           .map(
             () => `Cras mattis consectetur purus sit amet fermentum.

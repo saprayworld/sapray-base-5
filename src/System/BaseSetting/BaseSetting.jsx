@@ -3,6 +3,7 @@ import { SYS_SETTING_NAME } from "./config";
 const keyLocalStorage = SYS_SETTING_NAME;
 const defaultSetting = {
   version: 1,
+  themeName: "default",
   themeType: "onDevice", // [ onDevice, dark, light ]
   lang: "th-TH", // en-US, th-TH
   windows: 1,

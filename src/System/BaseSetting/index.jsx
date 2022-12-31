@@ -16,8 +16,27 @@ const settingData = localSettingData.get();
 const settingColorMode = getColorMode(settingData.themeType === "dark");
 const useColorModeInit = settingData.themeType === 'onDevice' ? systemColorMode : settingColorMode;
 
+const settingThemeName = settingData.themeName;
+
+/**
+ * แปลงค่าที่ส่งเข้าไปให้เป็น string โดยที่ dark จะแทนโหมดมืด และ light จะแทนโหมดสว่าง
+ * @param {string} type โหมดสีเช่น onDevice, dark, light
+ * @returns ใช้โหมดมืดหรือสว่าง โดยที่ dark จะแทนโหมดมืด และ light จะแทนโหมดสว่าง
+ */
 function getColorModeByType(type) {
-  return type === "onDevice" ? systemColorMode : type
+  switch (type) {
+    case "onDevice":
+      return systemColorMode;
+
+    case "light":
+      return "light";
+  
+    case "dark":
+      return "dark";
+  
+    default:
+      return "light";
+  }
 }
 
 function getColorMode(type) {
@@ -26,9 +45,14 @@ function getColorMode(type) {
 
 const defaultBaseSetting = {
   /**
-   * ข้อมูลโหมดของทีที่แสดงในปัจจุบัน
+   * ข้อมูลโหมดของสีที่แสดงในปัจจุบัน
    */
   currentColorMode: useColorModeInit,
+
+  /**
+   * ข้อมูลของชื่อธีมที่แสดงในปัจจุบัน
+   */
+  currentThemeName: settingThemeName,
 
   /**
    * ข้อมูลที่แสดงว่ามีการอัพเดทการตั้งค่าไปกี่ครั้งแล้ว
@@ -60,6 +84,16 @@ const defaultBaseSetting = {
   },
 
   /**
+   * ตั้งค่าธีม
+   * @param {object} parameter โหมดของสี
+   * @param {string} parameter.themeName ชื่อธีม
+   * @param {("onDevice" | "dark" | "light")} parameter.mode โหมดของสี
+   */
+  setTheme: ({ themeName }) => {
+    localSettingData.set({ themeName: themeName })
+  },
+
+  /**
    * สลับโหมดของทีที่แสดง
    */
   toggleColorMode: () => { },
@@ -88,18 +122,20 @@ export function BaseSettingProvider(props) {
   //   ...config,
   // }
 
-  const [mode, setMode] = React.useState(useColorModeInit);
+  const [themeMode, setThemeMode] = React.useState(useColorModeInit);
+  const [themeName, setThemeName] = React.useState(settingThemeName);
   const [stackUpdate, setStackUpdate] = React.useState(0);
 
   const baseSettingData = React.useMemo(
     () => {
       return {
         ...defaultBaseSetting,
-        currentColorMode: mode,
+        currentColorMode: themeMode,
+        currentThemeName: themeName,
         currentStackUpdate: stackUpdate,
         setColorMode: (_mode) => {
           localSetting.set({ themeType: _mode })
-          setMode(getColorModeByType(_mode))
+          setThemeMode(getColorModeByType(_mode))
           setStackUpdate((prevMode) => prevMode + 1)
         },
         getBaseSetting: localSettingData.get(),
@@ -108,22 +144,29 @@ export function BaseSettingProvider(props) {
           localSettingData.set(settingData)
           setStackUpdate((prevMode) => prevMode + 1)
         },
+        setTheme: ({ themeName }) => {
+          localSettingData.set({ themeName: themeName })
+          setThemeName(themeName)
+          // setThemeMode(getColorModeByType(mode))
+          setStackUpdate((prevMode) => prevMode + 1)
+        },
       }
     },
-    [mode, stackUpdate],
+    [themeMode, themeName, stackUpdate],
   );
 
   window.onstorage = (data) => {
     if (data.key === SYS_SETTING_NAME) {
       const newSetting = JSON.parse(data.newValue)
-      setMode(getColorModeByType(newSetting.themeType))
+      setThemeName(newSetting.themeName)
+      setThemeMode(getColorModeByType(newSetting.themeType))
     }
   };
 
   const theme = React.useMemo(
     () =>
-      createTheme(switchTheme(mode)),
-    [mode],
+      createTheme(switchTheme(themeMode, themeName)),
+    [themeMode, themeName],
   );
 
   return (
