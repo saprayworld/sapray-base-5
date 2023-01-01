@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { localSettingData } from './BaseSetting';
-import { switchTheme } from '../Themes';
+import { systemTheme } from '../Themes';
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { CssBaseline } from '@mui/material';
 import { SYS_SETTING_NAME } from './config';
@@ -10,8 +10,8 @@ const localSetting = {
   set: localSettingData.set,
 };
 
-const systemTheme = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-const systemColorMode = getColorMode(systemTheme);
+const browserTheme = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+const systemColorMode = getColorMode(browserTheme);
 const settingData = localSettingData.get();
 const settingColorMode = getColorMode(settingData.themeType === "dark");
 const useColorModeInit = settingData.themeType === 'onDevice' ? systemColorMode : settingColorMode;
@@ -165,7 +165,7 @@ export function BaseSettingProvider(props) {
 
   const theme = React.useMemo(
     () =>
-      createTheme(switchTheme(themeMode, themeName)),
+      createTheme(systemTheme.switchTheme(themeMode, themeName)),
     [themeMode, themeName],
   );
 

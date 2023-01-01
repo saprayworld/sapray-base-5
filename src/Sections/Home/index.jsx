@@ -7,6 +7,7 @@ import Brightness4Icon from '@mui/icons-material/Brightness4';
 import Brightness7Icon from '@mui/icons-material/Brightness7';
 import { useBaseSetting } from 'System/BaseSetting';
 import DemoPage from './Components/DemoPage';
+import { systemTheme } from 'System/Themes';
 
 
 export default function Home(props) {
@@ -23,15 +24,28 @@ export default function Home(props) {
     target: undefined,
   });
 
-  const themeList = [
-    { labal: 'Sapray', value: "sapray" },
-    { labal: 'Japanese', value: "japanese" },
-  ]
   const colorModeList = [
     { labal: 'ตามอุปกรณ์', value: "onDevice" },
     { labal: 'มืด', value: "dark" },
     { labal: 'สว่าง', value: "light" },
   ]
+
+  const [themeList, setThemeList] = React.useState([]);
+
+  function addThemeToList() {
+    let theme = []
+    systemTheme.getCurrentThemeList({}).forEach((item) => {
+      theme.push({ labal: item.name, value: item.name })
+    })
+    setThemeList(theme)
+  }
+
+  React.useEffect(() => {
+    addThemeToList()
+    return () => {
+
+    }
+  }, [])
 
   // console.log(baseSetting);
 
@@ -72,9 +86,11 @@ export default function Home(props) {
         <p>EventTriggerScroll By Function: {trigger ? "True" : "False"}</p>
         {/* <Typography>เลือกธีม</Typography> */}
         <Autocomplete
+          disableClearable
           disablePortal
-          value={themeList.find((item) => baseSetting.currentThemeName === item.value)}
+          value={themeList.find((item) => baseSetting.currentThemeName === item.value) || null}
           options={themeList}
+          // loading={themeList.length < 1}
           getOptionLabel={(item) => `${item.labal}`}
           onChange={(e, item) => baseSetting.setTheme({ themeName: item.value })}
           isOptionEqualToValue={(list, currentValue) => list.value === currentValue.value}
@@ -83,6 +99,7 @@ export default function Home(props) {
         />
         <br />
         <Autocomplete
+          disableClearable
           disablePortal
           value={colorModeList.find((item) => baseSetting.getBaseSetting.themeType === item.value)}
           options={colorModeList}
@@ -96,6 +113,10 @@ export default function Home(props) {
         <Typography>รูปแบบธีมที่กำลังใช้</Typography>
         <Typography>ชื่อธีม: {baseSetting.currentThemeName}</Typography>
         <Typography>โหมดสี: {baseSetting.currentColorMode}</Typography>
+        <br />
+        <Button sx={{ ml: 1 }} onClick={() => console.log(systemTheme.getCurrentThemeList({ withMode: true }))} color="inherit">
+          ข้อมูลรายการธีม
+        </Button>
         <hr />
         <DemoPage />
         <br />

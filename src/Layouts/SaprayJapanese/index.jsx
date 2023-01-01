@@ -11,7 +11,7 @@ import { ThemeProvider, createTheme } from "@mui/material/styles";
 import PageBackground from '../../Components/PageBackground';
 import ElevateAppBar from '../../Components/AppBar';
 import Loading from '../../Components/Loading';
-import { switchTheme } from 'System/Themes';
+import { systemTheme } from 'System/Themes';
 import { CssBaseline } from '@mui/material';
 
 export default function SaprayJapanese(props) {
@@ -19,7 +19,7 @@ export default function SaprayJapanese(props) {
   const { rnData } = props;
   const { routes } = rnData;
 
-  const theme = createTheme(switchTheme("dark", "japanese"));
+  const theme = createTheme(systemTheme.switchTheme("dark", "japanese"));
 
   function setTitle(propsLocationPathname) {
     var webName = "Sapray Japanese"
