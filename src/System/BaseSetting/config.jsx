@@ -1,0 +1,1 @@
+export const SYS_SETTING_NAME = "saprayworld_manager"

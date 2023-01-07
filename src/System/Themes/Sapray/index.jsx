@@ -10,14 +10,14 @@ export const defaultTheme = createTheme({});
 
 export const saprayThemeLight = {
   palette: {
-    mode: 'light',
+    // mode: 'light',
     ...paletteLight,
   },
   typography: {
     fontFamily: [
       '"Roboto"',
       // '"Noto Sans Thai"',
-      '"Noto Sans JP"',
+      // '"Noto Sans JP"',
       '"Helvetica"',
       '"Arial"',
       'sans-serif',
@@ -30,7 +30,7 @@ export const saprayThemeLight = {
       styleOverrides: {
         body: {
           ...darkScrollbar(),
-          transition: ".3s ease",
+          // transition: ".3s ease",
           // color: "#FFF",
           // backgroundColor: "#171941",
           // fontFamily: '"Poppins", sans-serif',
@@ -43,11 +43,19 @@ export const saprayThemeLight = {
 export const saprayThemeDark = {
   ...saprayThemeLight,
   palette: {
-    mode: 'dark',
+    // mode: 'dark',
     ...paletteDark,
   },
   components: {
     ...saprayThemeLight.components,
     ...Appbar(paletteDark),
+    MuiCssBaseline: {
+      styleOverrides: {
+        body: {
+          ...darkScrollbar(),
+          color: "#b3b3b3",
+        }
+      }
+    }
   }
 };
