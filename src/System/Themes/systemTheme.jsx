@@ -18,19 +18,19 @@ const themeList = [
  */
 function regisTheme(themeObject) {
   if (themeObject) {
-    // ถ้าธีมที่ส่งมาไม่มีโหมดสีใดเลย จะส่งค่า false กลับไป
+    // ถ้าธีมที่ส่งมาไม่มีโหมดสีใดเลย จะส่งค่า no-any-color-mode กลับไป
     if (!themeObject?.dark && !themeObject?.light) return "no-any-color-mode"
-    
-    // ถ้ามีชื่ออยู่แล้ว จะส่งค่า false กลับไปเลย
+
+    // ถ้ามีชื่ออยู่แล้ว จะส่งค่า name-has-existed กลับไปเลย
     if (findIndexThemeByName(themeObject.name)) return "name-has-existed"
 
     // เพิ่มธีมไปยัง Theme list
     themeList.push(themeObject)
 
-    // เพิ่มธีมสำเร็จ ส่งค่า true กลับไป
+    // เพิ่มธีมสำเร็จ ส่งค่า success กลับไป
     return "success"
   } else {
-    // ไม่มีธีมที่ส่งมา ส่งค่า false กลับไป
+    // ไม่มีธีมที่ส่งมา ส่งค่า no-theme-data กลับไป
     return "no-theme-data"
   }
 }
@@ -69,12 +69,20 @@ function getCurrentThemeList({ withMode = false }) {
  * @returns รูปแบบของธีมที่ตรงเงื่อนไข
  */
 const switchTheme = (mode, name = "sapray") => {
+
+  // หาข้อมูลรูปแบบตามเงื่อนไขที่ได้รับ ว่ามีหรือไม่
   const theme = themeList.find(item => item.name === name)
 
+  // หากมี
   if (theme) {
+    // ถ้ามีโหมดที่ต้องการ ให้ส่งโหมดนั้นกลับไป
     if (theme[mode]) return theme[mode]
+    // ถ้าไม่มีโหมดที่ระบุมา ให้ส่งโหมดที่มีกลับไป
     else return (mode === "light") ? theme.dark : theme.light
-  } else {
+  }
+  // หากไม่มี
+  else {
+    // เรียกตัวเองเพื่อส่งรูปแบบเริ่มต้นกลับไป
     return switchTheme(mode, defaultTheme)
   }
 }

@@ -8,7 +8,36 @@ import Brightness7Icon from '@mui/icons-material/Brightness7';
 import { useBaseSetting } from 'System/BaseSetting';
 import DemoPage from './Components/DemoPage';
 import { systemTheme } from 'System/Themes';
+import { systemLanguage } from 'System/Language/systemLanguage';
 
+const appThaiLang = {
+  lang: "th-TH",
+  name: "ไทย",
+  strings: [
+    { id: "home_current_theme_using", value: "รูปแบบธีมที่กำลังใช้" },
+    { id: "home_theme_name", value: "ชื่อธีม:" },
+    { id: "home_color_mode", value: "โหมดสี:" },
+    { id: "home_theme_list_detail", value: "ข้อมูลรายการธีม" },
+    { id: "home_setting_detail", value: "ข้อมูลการตั้งค่า" },
+    { id: "home_test_lang_message", value: "นี้คือข้อความทดสอบ" },
+  ]
+}
+
+const appEngLang = {
+  lang: "en-US",
+  name: "english",
+  strings: [
+    { id: "home_current_theme_using", value: "Current theme is using" },
+    { id: "home_theme_name", value: "Theme name:" },
+    { id: "home_color_mode", value: "Color mode:" },
+    { id: "home_theme_list_detail", value: "Theme list detail" },
+    { id: "home_setting_detail", value: "Setting detail" },
+    { id: "home_test_lang_message", value: "This is a test message" },
+  ]
+}
+
+systemLanguage.regisLang(appThaiLang);
+systemLanguage.regisLang(appEngLang);
 
 export default function Home(props) {
   // const {
@@ -53,32 +82,7 @@ export default function Home(props) {
     <>
       <ElevateAppBar
         menu={<>
-          <div>{baseSetting.currentColorMode}</div>
-          <Button sx={{ ml: 1 }} onClick={() => console.log(baseSetting.getBaseSetting)} color="inherit">
-            ข้อมูลตั้งค่าโหมดสี
-          </Button>
-          <Button sx={{ ml: 1 }} onClick={() => baseSetting.setColorMode("onDevice")} color="inherit">
-            อุปกรณ์
-          </Button>
-          <Button sx={{ ml: 1 }} onClick={() => baseSetting.setColorMode("dark")} color="inherit">
-            มืด
-          </Button>
-          <Button sx={{ ml: 1 }} onClick={() => baseSetting.setColorMode("light")} color="inherit">
-            สว่าง
-          </Button>
-          <Button sx={{ ml: 1 }} onClick={() => baseSetting.setTheme({ themeName: "japanese" })} color="inherit">
-            japanese
-          </Button>
-          <Button sx={{ ml: 1 }} onClick={() => baseSetting.setTheme({ themeName: "sapray" })} color="inherit">
-            sapray
-          </Button>
-
-          <IconButton sx={{ ml: 1 }} onClick={() => baseSetting.setColorMode("light")} color="inherit">
-            {theme.palette.mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
-          </IconButton>
-          <IconButton sx={{ ml: 1 }} onClick={() => baseSetting.setColorMode("dark")} color="inherit">
-            {theme.palette.mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
-          </IconButton>
+          <div>sapray-base-5</div>
         </>
         }
       />
@@ -114,14 +118,28 @@ export default function Home(props) {
         <Typography>ชื่อธีม: {baseSetting.currentThemeName}</Typography>
         <Typography>โหมดสี: {baseSetting.currentColorMode}</Typography>
         <br />
+
+        <Typography>ภาษาที่กำลังใช้</Typography>
+        <Typography>ภาษา: ไม่ระบุ</Typography>
+        {/* <Typography>testLang: {`${systemLanguage.getString("home_test_lang_message")}`}</Typography> */}
+        <br />
         <Button sx={{ ml: 1 }} onClick={() => console.log(systemTheme.getCurrentThemeList({ withMode: true }))} color="inherit">
           ข้อมูลรายการธีม
+        </Button>
+        <Button sx={{ ml: 1 }} onClick={() => console.log(baseSetting.getBaseSetting)} color="inherit">
+          ข้อมูลการตั้งค่า
+        </Button>
+        <Button sx={{ ml: 1 }} onClick={() => console.log(systemLanguage.getCurrentLangList())} color="inherit">
+          ข้อมูลรายการภาษา
+        </Button>
+        <Button sx={{ ml: 1 }} onClick={() => console.log(systemLanguage.getStringObject())} color="inherit">
+          ข้อมูลภาษา
         </Button>
         <hr />
         <DemoPage />
         <br />
         <br />
-        <br />
+        {/* <br />
         <br />
         {[...new Array(30)]
           .map(
@@ -130,7 +148,7 @@ Cras justo odio, dapibus ac facilisis in, egestas eget quam.
 Morbi leo risus, porta ac consectetur ac, vestibulum at eros.
 Praesent commodo cursus magna, vel scelerisque nisl consectetur et.`,
           )
-          .join('\n')}
+          .join('\n')} */}
       </Container>
     </>
   )
