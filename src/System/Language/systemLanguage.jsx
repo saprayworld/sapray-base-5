@@ -85,6 +85,17 @@ export class SystemLanguage {
   }
 }
 
+export function useLanguage() {
+
+  const [lang, setLang] = React.useState({ lang: "th-TH", name: "ไทย" });
+
+  function getLang(id) {
+    console.log("get lang");
+  }
+
+  return [lang, getLang]
+}
+
 export const systemLanguage = {
   regisLang,
   getCurrentLangList,

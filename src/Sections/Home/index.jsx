@@ -8,7 +8,7 @@ import Brightness7Icon from '@mui/icons-material/Brightness7';
 import { useBaseSetting } from 'System/BaseSetting';
 import DemoPage from './Components/DemoPage';
 import { systemTheme } from 'System/Themes';
-import { systemLanguage } from 'System/Language/systemLanguage';
+import { systemLanguage, useLanguage } from 'System/Language/systemLanguage';
 
 const appThaiLang = {
   lang: "th-TH",
@@ -44,6 +44,8 @@ export default function Home(props) {
   //   // message,
   // } = props;
 
+  const [lang, getLang] = useLanguage();
+
   const theme = useTheme();
   const baseSetting = useBaseSetting()
 
@@ -70,6 +72,8 @@ export default function Home(props) {
   }
 
   React.useEffect(() => {
+    console.log(lang);
+    console.log(getLang("123"));
     addThemeToList()
     return () => {
 
