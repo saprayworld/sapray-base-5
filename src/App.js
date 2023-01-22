@@ -13,8 +13,6 @@ import {
 } from 'System/BaseSetting';
 import { systemTheme } from 'System/Themes';
 import { customThemeLight } from 'Theme/Custom';
-import { systemLanguage } from 'System/Language/systemLanguage';
-
 const LayoutSwitch = React.lazy(() => import('./Layouts/LayoutSwitch'));
 systemTheme.regisTheme({ name: "custom", light: customThemeLight })
 
@@ -32,9 +30,6 @@ const appEngLang = {
   ]
 }
 
-systemLanguage.regisLang(appThaiLang)
-systemLanguage.regisLang(appEngLang)
-
 export default function App() {
   const [ready, setReady] = React.useState(false);
 
@@ -50,10 +45,10 @@ export default function App() {
     {
       !ready
         ? <>
-          <Loading message={systemLanguage.getString("app_init")} />
+          <Loading message={"กำลังเริ่มต้นระบบ กรุณารอสักครู่..."} />
         </>
         : <BrowserRouter >
-          <Suspense fallback={<Loading message={systemLanguage.getString("app_route_checking")} />}>
+          <Suspense fallback={<Loading message={"กำลังตรวจสอบเส้นทาง..."} />}>
             <Routes>
               <Route
                 path={`*`}

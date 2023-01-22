@@ -30,10 +30,10 @@ function getColorModeByType(type) {
 
     case "light":
       return "light";
-  
+
     case "dark":
       return "dark";
-  
+
     default:
       return "light";
   }
@@ -94,6 +94,15 @@ const defaultBaseSetting = {
   },
 
   /**
+   * ตั้งค่าภาษา
+   * @param {*} parameter 
+   * @param {string} parameter.lang ชื่อธีม
+   */
+  setLang: ({ lang }) => {
+    localSettingData.set({ lang: lang })
+  },
+
+  /**
    * สลับโหมดของทีที่แสดง
    */
   toggleColorMode: () => { },
@@ -136,19 +145,23 @@ export function BaseSettingProvider(props) {
         setColorMode: (_mode) => {
           localSetting.set({ themeType: _mode })
           setThemeMode(getColorModeByType(_mode))
-          setStackUpdate((prevMode) => prevMode + 1)
+          setStackUpdate((prevStackUpdate) => prevStackUpdate + 1)
         },
         getBaseSetting: localSettingData.get(),
         currentBaseSetting: localSettingData.get(),
         setBaseSetting: (settingData) => {
           localSettingData.set(settingData)
-          setStackUpdate((prevMode) => prevMode + 1)
+          setStackUpdate((prevStackUpdate) => prevStackUpdate + 1)
         },
         setTheme: ({ themeName }) => {
           localSettingData.set({ themeName: themeName })
           setThemeName(themeName)
           // setThemeMode(getColorModeByType(mode))
-          setStackUpdate((prevMode) => prevMode + 1)
+          setStackUpdate((prevStackUpdate) => prevStackUpdate + 1)
+        },
+        setLang: ({ lang }) => {
+          localSettingData.set({ lang: lang })
+          setStackUpdate((prevStackUpdate) => prevStackUpdate + 1)
         },
       }
     },

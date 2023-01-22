@@ -8,7 +8,7 @@ import Brightness7Icon from '@mui/icons-material/Brightness7';
 import { useBaseSetting } from 'System/BaseSetting';
 import DemoPage from './Components/DemoPage';
 import { systemTheme } from 'System/Themes';
-import { systemLanguage, useLanguage } from 'System/Language/systemLanguage';
+import { useLanguage } from 'System/Language/systemLanguage';
 
 const appThaiLang = {
   lang: "th-TH",
@@ -36,18 +36,13 @@ const appEngLang = {
   ]
 }
 
-systemLanguage.regisLang(appThaiLang);
-systemLanguage.regisLang(appEngLang);
-
 export default function Home(props) {
   // const {
   //   // message,
   // } = props;
-
-  const [lang, getLang] = useLanguage();
-
-  const theme = useTheme();
   const baseSetting = useBaseSetting()
+  const language = useLanguage(appEngLang, baseSetting.getBaseSetting.lang);
+  // const [lang, setLang, regisLang, getStringObject, getString] = useLanguage(appEngLang);
 
   const trigger = useScrollTrigger({
     disableHysteresis: true,
@@ -71,14 +66,48 @@ export default function Home(props) {
     setThemeList(theme)
   }
 
+  const langList = [
+    { labal: 'ไทย', value: "th-TH" },
+    { labal: 'english', value: "en-US" },
+  ]
+
+  // const [langList, setLangList] = React.useState([]);
+
+  // function addLangToList() {
+  //   // let _lang = []
+  //   // language.getCurrentLangList({}).forEach((item) => {
+  //   //   _lang.push({ labal: item.name, value: item.lang })
+  //   // })
+  //   // setLangList(_lang)
+  // }
+
   React.useEffect(() => {
-    console.log(lang);
-    console.log(getLang("123"));
+    // console.log("เพิ่มภาษา");
+    console.log(language.regisLang(appThaiLang));
+    console.log(language.getStringObject());
+    // console.log(language.lang);
+    // console.log(language.getString("home_test_lang_message"));
+    // console.log("เปลี่ยนภาษาเป็นไทย");
+    language.setLang("th-TH")
+    console.log(language.getStringObject());
+    // console.log(language.lang);
+    // console.log(language.getString("home_test_lang_message"));
+    // console.log(language.getLang("123"));
     addThemeToList()
     return () => {
 
     }
   }, [])
+
+  // React.useEffect(() => {
+  //   console.log(language.getStringObject());
+  //   language.setLang("th-TH")
+  //   return () => {
+      
+  //   }
+  // }, [baseSetting])
+
+  // console.log(language);
 
   // console.log(baseSetting);
 
@@ -123,9 +152,22 @@ export default function Home(props) {
         <Typography>โหมดสี: {baseSetting.currentColorMode}</Typography>
         <br />
 
+        <Autocomplete
+          disableClearable
+          disablePortal
+          value={langList.find((item) => baseSetting.getBaseSetting.lang === item.value)}
+          options={langList}
+          getOptionLabel={(item) => `${item.labal}`}
+          onChange={(e, item) => baseSetting.setLang({ lang: item.value })}
+          isOptionEqualToValue={(list, currentValue) => list.value === currentValue.value}
+          sx={{ width: 300 }}
+          renderInput={(params) => <TextField {...params} label="เลือกภาษา" />}
+        />
+        <br />
+
         <Typography>ภาษาที่กำลังใช้</Typography>
-        <Typography>ภาษา: ไม่ระบุ</Typography>
-        {/* <Typography>testLang: {`${systemLanguage.getString("home_test_lang_message")}`}</Typography> */}
+        <Typography>ภาษา: {baseSetting.getBaseSetting.lang}</Typography>
+        <Typography>testLang: {`${language.getString("home_test_lang_message")}`}</Typography>
         <br />
         <Button sx={{ ml: 1 }} onClick={() => console.log(systemTheme.getCurrentThemeList({ withMode: true }))} color="inherit">
           ข้อมูลรายการธีม
@@ -133,11 +175,23 @@ export default function Home(props) {
         <Button sx={{ ml: 1 }} onClick={() => console.log(baseSetting.getBaseSetting)} color="inherit">
           ข้อมูลการตั้งค่า
         </Button>
-        <Button sx={{ ml: 1 }} onClick={() => console.log(systemLanguage.getCurrentLangList())} color="inherit">
+        {/* <Button sx={{ ml: 1 }} onClick={() => console.log(systemLanguage.getCurrentLangList())} color="inherit">
           ข้อมูลรายการภาษา
-        </Button>
-        <Button sx={{ ml: 1 }} onClick={() => console.log(systemLanguage.getStringObject())} color="inherit">
+        </Button> */}
+        <Button sx={{ ml: 1 }} onClick={() => console.log(language.getStringObject())} color="inherit">
           ข้อมูลภาษา
+        </Button>
+        <Button sx={{ ml: 1 }} onClick={() => console.log(language.regisLang(appThaiLang))} color="inherit">
+          SET
+        </Button>
+        <Button sx={{ ml: 1 }} onClick={() => console.log(language.lang)} color="inherit">
+          INFO
+        </Button>
+        <Button sx={{ ml: 1 }} onClick={() => console.log(language.setLang("th-TH"))} color="inherit">
+          TH
+        </Button>
+        <Button sx={{ ml: 1 }} onClick={() => console.log(language.setLang("en-US"))} color="inherit">
+          EN
         </Button>
         <hr />
         <DemoPage />
