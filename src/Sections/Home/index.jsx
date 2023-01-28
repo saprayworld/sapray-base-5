@@ -1,10 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Autocomplete, Button, Container, IconButton, TextField, Typography, useScrollTrigger, useTheme } from '@mui/material';
+import {
+  Autocomplete,
+  Button,
+  Container,
+  TextField,
+  Typography,
+  useScrollTrigger
+} from '@mui/material';
 import ElevateAppBar from './Components/Appbar/ElevateAppBar';
 
-import Brightness4Icon from '@mui/icons-material/Brightness4';
-import Brightness7Icon from '@mui/icons-material/Brightness7';
+// import Brightness4Icon from '@mui/icons-material/Brightness4';
+// import Brightness7Icon from '@mui/icons-material/Brightness7';
 import { useBaseSetting } from 'System/BaseSetting';
 import DemoPage from './Components/DemoPage';
 import { systemTheme } from 'System/Themes';
@@ -36,12 +43,30 @@ const appEngLang = {
   ]
 }
 
-export default function Home(props) {
-  // const {
-  //   // message,
-  // } = props;
+export default function Home() {
   const baseSetting = useBaseSetting()
-  const language = useLanguage(appEngLang, baseSetting.getBaseSetting.lang);
+  const { lang } = baseSetting.getBaseSetting
+
+  const selectLangBySetting = React.useCallback((lang) => {
+    switch (lang) {
+      case "en-US":
+        return appEngLang
+      case "th-TH":
+        return appThaiLang
+
+      default:
+        return appEngLang
+    }
+  }, [])
+
+  const language = useLanguage(selectLangBySetting(lang), lang);
+  const { regisLang } = language
+  React.useMemo(() => {
+    console.log("Memo");
+    console.log(regisLang(appThaiLang));
+    console.log(regisLang(appEngLang));
+    return true
+  }, [regisLang])
   // const [lang, setLang, regisLang, getStringObject, getString] = useLanguage(appEngLang);
 
   const trigger = useScrollTrigger({
@@ -71,31 +96,11 @@ export default function Home(props) {
     { labal: 'english', value: "en-US" },
   ]
 
-  // const [langList, setLangList] = React.useState([]);
-
-  // function addLangToList() {
-  //   // let _lang = []
-  //   // language.getCurrentLangList({}).forEach((item) => {
-  //   //   _lang.push({ labal: item.name, value: item.lang })
-  //   // })
-  //   // setLangList(_lang)
-  // }
-
   React.useEffect(() => {
-    // console.log("เพิ่มภาษา");
-    console.log(language.regisLang(appThaiLang));
-    console.log(language.getStringObject());
-    // console.log(language.lang);
-    // console.log(language.getString("home_test_lang_message"));
-    // console.log("เปลี่ยนภาษาเป็นไทย");
-    language.setLang("th-TH")
-    console.log(language.getStringObject());
-    // console.log(language.lang);
-    // console.log(language.getString("home_test_lang_message"));
-    // console.log(language.getLang("123"));
+    console.log("Effect");
     addThemeToList()
     return () => {
-
+      console.log("Unmounted");
     }
   }, [])
 
@@ -103,7 +108,7 @@ export default function Home(props) {
   //   console.log(language.getStringObject());
   //   language.setLang("th-TH")
   //   return () => {
-      
+
   //   }
   // }, [baseSetting])
 
@@ -135,6 +140,17 @@ export default function Home(props) {
           renderInput={(params) => <TextField {...params} label="เลือกธีม" />}
         />
         <br />
+        {
+          themeList.map((item, inx) =>
+            <Button key={inx} sx={{ ml: 1 }} color="inherit"
+              onClick={() => baseSetting.setTheme({ themeName: item.value })}
+            >
+              {item.value}
+            </Button>
+          )
+        }
+        <br /><br />
+
         <Autocomplete
           disableClearable
           disablePortal
@@ -155,7 +171,7 @@ export default function Home(props) {
         <Autocomplete
           disableClearable
           disablePortal
-          value={langList.find((item) => baseSetting.getBaseSetting.lang === item.value)}
+          value={langList.find((item) => lang === item.value)}
           options={langList}
           getOptionLabel={(item) => `${item.labal}`}
           onChange={(e, item) => baseSetting.setLang({ lang: item.value })}
@@ -166,7 +182,7 @@ export default function Home(props) {
         <br />
 
         <Typography>ภาษาที่กำลังใช้</Typography>
-        <Typography>ภาษา: {baseSetting.getBaseSetting.lang}</Typography>
+        <Typography>ภาษา: {lang}</Typography>
         <Typography>testLang: {`${language.getString("home_test_lang_message")}`}</Typography>
         <br />
         <Button sx={{ ml: 1 }} onClick={() => console.log(systemTheme.getCurrentThemeList({ withMode: true }))} color="inherit">

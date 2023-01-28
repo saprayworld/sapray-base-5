@@ -9,10 +9,11 @@ import routes from './routes';
 import Loading from './Components/Loading';
 
 import {
-  BaseSettingProvider,
+  BaseSettingProvider, useBaseSetting,
 } from 'System/BaseSetting';
 import { systemTheme } from 'System/Themes';
 import { customThemeLight } from 'Theme/Custom';
+import { useLanguage } from 'System/Language/systemLanguage';
 const LayoutSwitch = React.lazy(() => import('./Layouts/LayoutSwitch'));
 systemTheme.regisTheme({ name: "custom", light: customThemeLight })
 
@@ -33,11 +34,34 @@ const appEngLang = {
 export default function App() {
   const [ready, setReady] = React.useState(false);
 
+  const selectLangBySetting = React.useCallback((lang) => {
+    switch (lang) {
+      case "en-US":
+        return appEngLang
+      case "th-TH":
+        return appThaiLang
+
+      default:
+        return appEngLang
+    }
+  }, [])
+
+  const baseSetting = useBaseSetting()
+  const { lang } = baseSetting.getBaseSetting
+  const language = useLanguage(selectLangBySetting(lang), lang);
+  const { regisLang } = language
+  React.useMemo(() => {
+    console.log("Memo");
+    console.log(regisLang(appThaiLang));
+    console.log(regisLang(appEngLang));
+    return true
+  }, [regisLang])
+
   React.useEffect(() => {
-    // console.log(systemTheme.getCurrentThemeList({}));
+    console.log("Effect");
     setReady(true)
     return () => {
-
+      console.log("Unmounted");
     }
   }, [])
 
@@ -45,10 +69,12 @@ export default function App() {
     {
       !ready
         ? <>
-          <Loading message={"กำลังเริ่มต้นระบบ กรุณารอสักครู่..."} />
+          <Loading message={`${language.getString("app_init")}`} />
+          {/* <Loading message={"กำลังเริ่มต้นระบบ กรุณารอสักครู่..."} /> */}
         </>
         : <BrowserRouter >
-          <Suspense fallback={<Loading message={"กำลังตรวจสอบเส้นทาง..."} />}>
+          <Suspense fallback={<Loading message={`${language.getString("app_route_checking")}`} />}>
+            {/* <Suspense fallback={<Loading message={"กำลังตรวจสอบเส้นทาง..."} />}> */}
             <Routes>
               <Route
                 path={`*`}
@@ -58,5 +84,5 @@ export default function App() {
           </Suspense>
         </BrowserRouter>
     }
-  </BaseSettingProvider >
+  </BaseSettingProvider>
 }
