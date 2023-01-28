@@ -9,13 +9,13 @@ import { Button } from "./Button";
 
 export const japaneseThemeLight = {
   palette: {
-    mode: 'light',
+    // mode: 'light',
     ...paletteLight,
   },
   typography: {
     fontFamily: [
       '"Roboto"',
-      // '"Noto Sans Thai"',
+      '"Noto Sans Thai"',
       '"Noto Sans JP"',
       '"Helvetica"',
       '"Arial"',
@@ -32,7 +32,7 @@ export const japaneseThemeLight = {
         body: {
           ...darkScrollbar(),
           // color: "#FFF",
-          // backgroundColor: "#171941",
+          backgroundColor: "#171941",
           // fontFamily: '"Poppins", sans-serif',
         },
       }
@@ -43,7 +43,7 @@ export const japaneseThemeLight = {
 export const japaneseThemeDark = {
   ...japaneseThemeLight,
   palette: {
-    mode: 'dark',
+    // mode: 'dark',
     ...paletteDark,
   },
   components: {

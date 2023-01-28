@@ -11,14 +11,15 @@ import { ThemeProvider, createTheme } from "@mui/material/styles";
 import PageBackground from '../../Components/PageBackground';
 import ElevateAppBar from '../../Components/AppBar';
 import Loading from '../../Components/Loading';
-import { switchTheme } from 'Themes';
+import { systemTheme } from 'System/Themes';
+import { CssBaseline } from '@mui/material';
 
 export default function SaprayJapanese(props) {
   const location = useLocation();
   const { rnData } = props;
   const { routes } = rnData;
 
-  const theme = createTheme(switchTheme("dark", "japanese"));
+  const theme = createTheme(systemTheme.switchTheme("dark", "japanese"));
 
   function setTitle(propsLocationPathname) {
     var webName = "Sapray Japanese"
@@ -49,6 +50,7 @@ export default function SaprayJapanese(props) {
 
   return (
     <ThemeProvider theme={theme}>
+      <CssBaseline />
       <PageBackground />
       <ElevateAppBar title="Sapray Japanese" />
       <Suspense fallback={<Loading message="กำลังโหลดหน้า..." />}>
