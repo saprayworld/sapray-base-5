@@ -64,11 +64,11 @@ export default function LayoutSwitch(props) {
           path={`${process.env.PUBLIC_URL}/apps`}
           element={<Navigate to={`${process.env.PUBLIC_URL}/apps/home`} replace />}
         />
-        <Route
+        {/* <Route
           exact
           path={`${process.env.PUBLIC_URL}/`}
           element={<Navigate to={`${process.env.PUBLIC_URL}/apps/home`} replace />}
-        />
+        /> */}
         {/* <Route
           exact
           path={`*`}

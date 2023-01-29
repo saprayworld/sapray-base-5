@@ -193,3 +193,56 @@ systemTheme.regisTheme(
 
 ก็จะสามารถใช้ได้ทั้ง Dark mode และ Light mode ได้แล้ว
 
+### ภาษา
+เราสามารถทำให้ระบบเว็บเรามีหลายภาษาได้
+``` jsx
+import * as React from 'react';
+import {
+  BaseSettingProvider,
+  useBaseSetting
+} from 'System/BaseSetting';
+import { useLanguage } from 'System/Language/systemLanguage';
+
+const appThaiLang = {
+  lang: "th-TH", name: "ไทย", strings: [
+    { id: "app_init", value: "กำลังเริ่มต้นระบบ กรุณารอสักครู่..." },
+  ]
+}
+
+const appEngLang = {
+  lang: "en-US", name: "english", strings: [
+    { id: "app_init", value: "initializing..." },
+  ]
+}
+
+export default function App() {
+
+  const selectLangBySetting = React.useCallback((lang) => {
+    switch (lang) {
+      case "en-US":
+        return appEngLang
+      case "th-TH":
+        return appThaiLang
+
+      default:
+        return appEngLang
+    }
+  }, [])
+  const baseSetting = useBaseSetting()
+  const { lang } = baseSetting.getBaseSetting
+  const language = useLanguage(selectLangBySetting(lang), lang);
+  const { regisLang } = language
+
+  React.useMemo(() => {
+    console.log(regisLang(appThaiLang));
+    console.log(regisLang(appEngLang));
+    return true
+  }, [regisLang])
+
+  return <BaseSettingProvider>
+    <p>{`${language.getString("app_init")}`}</p>
+  </BaseSettingProvider>
+}
+```
+
+ที่ ```useLanguage``` จะต้องส่งค่าภาษาเริ่มต้น ```selectLangBySetting(lang)``` กับการตั้งค่าภาษา ```lang``` เข้าไปด้วย เมื่อการตั้งค่า lang มีการเปลี่ยนแปลง ตัวแปร language จะถูกอัพเดทด้วยโดยค่าที่ถูกส่งออกมาจาก ```getString``` จะเปลี่ยนไปตามภาษาที่เราตั้งไว้ ส่วน ```regisLang``` คือการเพิ่มภาษาเข้าไปในระบบ
