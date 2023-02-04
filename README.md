@@ -1,10 +1,10 @@
 # sapray-base-5
-โครงโปรเจคสำหรับใช้งาน MUI เวอร์ชั่น 5 โดยสามารถ สลับธีม โหมดสีมืดหรือสว่างได้ และสามารถกำหนดแยกในแต่ละส่วนได้ด้วย 
+Project for using MUI version 5, with the ability to switch between dark and light theme and customize each section individually.
 
-## การใช้งานระบบเบื้องต้น
+## Basic usage of the system.
 
-### ระบบหลัก
-ระบบหลักประกอบไปด้วย การตั้งค่าของระบบ ทำหน้าที่จัดการการตั้งค่าของระบบ และตอบสนองเมื่อการตั้งค่าเหล่านั้นมีการเปลี่ยนแปลง เช่น ธีม โหมดสี หรือภาษา และนี่คือตัวอย่างการใช้งานเบื้องต้น
+### The main system.
+The system consists of setting up the system, managing system settings, and responding to changes in settings such as theme, color mode, or language. This is a basic example of usage.
 
 ``` jsx
 import * as React from 'react';
@@ -20,10 +20,10 @@ function App() {
 }
 ```
 
-การทำงานคือ หน้าเว็บจะทำงานตามปกติเลย พร้อมกับใช้ธีมเริ่มต้นของ MUI แต่จะมีการเปลี่ยนโหมดสี ตามค่าเริ่มต้นของอุปกรณ์
+The operation means the website will function normally and use the default MUI theme, but the color mode will change based on the device's default setting.
 
-### การเปลี่ยนโหมดสี
-หากต้องการเปลี่ยนโหมดสี ให้ใช้โค้ดตามตัวอย่างนี้
+### Changing Color Mode
+To change the color mode, use the code as shown in this example.
 
 ``` jsx
 import * as React from 'react';
@@ -52,9 +52,9 @@ function App() {
 }
 ```
 
-ตามตัวอย่างคือ จะมีการเรียกใช้ ```useBaseSetting``` จากระบบหลัก เพื่อทำการเปลี่ยนแปลงการตั้งค่าของระบบ และตรวจสอบสถานะการตั้งค่าได้ด้วย โดยการเปลี่ยนโหมดสีนั้น จะใช้คำสั่ง ```setColorMode``` ของตัว ```useBaseSetting``` จะมีค่าที่ใช้ได้คือ ```onDevice``` (ค่าเริ่มต้น), ```dark```, ```light``` เมื่อทำการคลิกที่ปุ่ม โหมดสีของหน้าเว็บจะเปลี่ยนไปตามค่าที่ถูกตั้งไว้
+An example usage of the system is to call the ```useBaseSetting``` from the main system to change the system settings and check the setting status. The color mode change will use the ```setColorMode``` command of the ```useBaseSetting```, which has the following possible values: ```onDevice``` (default), ```dark```, and ```light```. When the color mode button is clicked, the website's color mode will change according to the set value.
 
-### การเปลี่ยนธีม  
+### The theme change.  
 ``` jsx
 import * as React from 'react';
 import {
@@ -107,10 +107,10 @@ function App() {
 }
 ```
 
-ตามตัวอย่าง จะทำการสร้าง Button ตามจำนวนธีมที่ถูกตั้งค่าไว้ในระบบ โดยจะถูกเรียกจาก ```getCurrentThemeList``` ของ ```systemTheme``` และเมื่อมีการคลิกที่ปุ่ม ก็จะเรียกใช้ฟังก์ชั่น ```setTheme``` ของ ```useBaseSetting``` เพื่อเปลี่ยนการตั้งค่าของธีม และหน้าเว็บจะเปลี่ยนไปตามค่าที่ถูกตั้งไว้นั้นเอง
+Example creating buttons based on the number of themes set in the system, called from the ```getCurrentThemeList``` of ```systemTheme```. When clicked, the ```setTheme``` function of ```useBaseSetting``` will be invoked to change the theme settings and the web page will change according to the set value.
 
-### การกำหนดธีมเอง
-ในระบบนี้ เราสามารถสร้างธีมที่กำหนดเองได้ เพื่อนำไปใช้กับระบบเว็บของเรา ตามตัวอย่าง เราจะใช้โค้ดใน ```Theme/Custom``` ของโปรเจคนี้ ซึ่งเป็นตัวอย่างการสร้างธีมเองขึ้นมา และเราสามารถสร้างใหม่โดยใช้โค้ดที่ว่านี้เป็นตัวอ้างอิง
+### Custom theme setting.
+In this system, we can create our own custom theme for use in our website. For example, we will use the code in the ```Theme/Custom``` of this project, which is an example of creating a custom theme. And we can create a new one using this code as a reference.  
 
 ``` jsx
 // import custom theme
@@ -120,7 +120,7 @@ import { customThemeLight } from 'Theme/Custom';
 systemTheme.regisTheme({ name: "custom", light: customThemeLight })
 ```
 
-โค้ดทั้งหมด
+All code.
 ``` jsx
 import * as React from 'react';
 import Button from '@mui/material/Button';
@@ -178,8 +178,8 @@ function App() {
 }
 ```
 
-ในส่วนของ Button ที่ถูกสร้างตามจำนวนธีมที่ถูกตั้งค่าไว้ในระบบ ก็จะมีธีมที่ชื่อว่า custom แสดงขึ้นมาด้วย นั้นคือธีมที่เราสร้างขึ้นมาเองที่ถูกเพิ่มเข้าไปในระบบ และเมื่อเราคลิกปุ่มนั้น หน้าเว็บจะเปลี่ยนไปตามค่าธีมที่ถูกตั้งไว้  
-ในตัวอย่างนี้ ธีมจะถูกกำหนดให้มีเฉพาะ ```Light mode``` แม้ว่าโหมดสีจะถูกตั้งเป็นโหมดอื่น ตัวระบบก็จะยังใช้งาน Light mode อยู่ดี เช่นเดียวกับการตั้งเฉพาะ ```Dark mode``` ด้วยเช่นกัน แต่ถ้าหากจะให้มีทั้งสองแบบเลย ให้ใช้โค้ดตามตัวอย่างนี้
+In the section of buttons created according to the number of themes set in the system, there will also be a theme named "custom" displayed. This is the theme we created ourselves and added to the system. And when we click that button, the web page will change according to the theme settings.  
+In this example, the theme is set to only have the ```Light mode``` , even though the color mode is set to another mode, the system still uses the Light mode. Similarly, if only ```Dark mode``` is set, the same thing would happen. But if you want to have both, use the code from this example.
 
 ``` jsx
 // import custom theme with light and dark
@@ -191,10 +191,10 @@ systemTheme.regisTheme(
 )
 ```
 
-ก็จะสามารถใช้ได้ทั้ง Dark mode และ Light mode ได้แล้ว
+both Dark mode and Light mode will be available for use.
 
-### ภาษา
-เราสามารถทำให้ระบบเว็บเรามีหลายภาษาได้
+### Languages
+We can make our website system have multiple languages.
 ``` jsx
 import * as React from 'react';
 import {
@@ -245,4 +245,4 @@ export default function App() {
 }
 ```
 
-ที่ ```useLanguage``` จะต้องส่งค่าภาษาเริ่มต้น ```selectLangBySetting(lang)``` กับการตั้งค่าภาษา ```lang``` เข้าไปด้วย เมื่อการตั้งค่า lang มีการเปลี่ยนแปลง ตัวแปร language จะถูกอัพเดทด้วยโดยค่าที่ถูกส่งออกมาจาก ```getString``` จะเปลี่ยนไปตามภาษาที่เราตั้งไว้ ส่วน ```regisLang``` คือการเพิ่มภาษาเข้าไปในระบบ
+This code allows you to have a website with multiple languages. The ```useLanguage``` function must be passed the initial language value with ```selectLangBySetting(lang)``` and the language setting ```lang```. When the lang setting changes, the language variable is updated. The value returned from ```getString``` will change according to the language you set. The ```regisLang``` function is used to add languages to the system.
